@@ -3,3 +3,10 @@
 body{
   background-color: black;
 }
+
+.limitModal{
+  display:none;
+  background-color:#efefef;
+  border-radius:12px;
+  padding:8px;
+}

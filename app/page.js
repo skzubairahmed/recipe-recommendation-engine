@@ -5,9 +5,25 @@ export default function Home(){
   const [ingredients, setIngredients] = useState('');
   const [recipes, setRecipes] = useState([]);
 
+  const showLimitReachedModal = () => {
+    const modal = document.getElementById('limit-reached-modal');
+    modal.style.display = 'flex';
+  }
+
+  const hideLimitReachedModal = () => {
+    const modal = document.getElementById('limit-reached-modal');
+    modal.style.display = 'none';
+  }
+
   const searchRecipes = async () => {
     const res = await fetch(`/api/recipes?ingredients=${ingredients}`);
     const data = await res.json();
+    console.log(data);
+    if(data.response == 402 || data.response == 429 || data.response == 200 || data.status == 500){
+      showLimitReachedModal();
+      console.log(50000);
+    }
+
     setRecipes(data);
   }
 
@@ -16,7 +32,20 @@ export default function Home(){
       <h1 className="text-3xl font-bold mb-6 text-white">
         What's in your fridge ?
       </h1>
-      
+      <div className="limitModal" id="limit-reached-modal">
+        <div className="modal-card">
+          <div className="icon">⚠️</div>
+          <h2 className="modal-header">
+            API Limit Reached
+          </h2>
+          <p className="modal-message">
+            If you want more of this site then please fund me :(
+          </p>
+          <button className="close-modal-button" onClick={hideLimitReachedModal}>
+            Close
+          </button>
+        </div>
+      </div>
       <div className="flex gap-2 mb-8">
         <input
         className="border p-2 flex-1 rounded text-white"

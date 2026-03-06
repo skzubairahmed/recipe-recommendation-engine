@@ -10,7 +10,6 @@ export async function GET(request){
     );
 
     const recipes = await result.json();
-
     if(!Array.isArray(recipes)){
         return NextResponse.json({"error":"Unexpected API response format."}), {status:500};
     }
